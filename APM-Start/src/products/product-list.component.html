@@ -33,12 +33,12 @@
                 </tr>
             </thead>
             <tbody>
-                <tr *ngFor='let product of products; index as rowIndex'>
+                <tr *ngFor='let product of filteredProducts; index as rowIndex'>
                     <td>
                         <img *ngIf='showImage' [src]='product.imageUrl' [title]='product.productName' [style.width.px]='imageWidth' [style.margin.px]='imageMargin' >
                     </td>
                     <td [title]="rowIndex">{{ product.productName }}</td>
-                    <td>{{ product.productCode | uppercase }}</td>
+                    <td>{{ product.productCode | uppercase | convertToSpace:'-' }}</td>
                     <td>{{ product.releaseDate }}</td>
                     <td>{{ product.price | currency:'USD':'symbol':'1.2-2' | lowercase }}</td>
                     <td>{{ product.starRating }}</td>

@@ -1,16 +1,27 @@
-import { Component, Input } from "@angular/core";
+import { Component, Input, OnInit } from "@angular/core";
+import { IProduct } from "src/Interfaces/IProduct";
 
-@Component({selector:'pm-products', templateUrl: './product-list.component.html'})
-export class ProductListComponent
+@Component({selector:'pm-products', templateUrl: './product-list.component.html', styleUrls: ['./product-list.component.css']})
+export class ProductListComponent implements OnInit
 {
-    
-    pageTitle: string = 'Product List';
+  _listFilter: string;
     imageWidth: number = 50;
     imageMargin: Number = 2;
     showImage: boolean  = true;
-    listFilter: string = '';
 
-    products: any[] =
+    public get listFilter(): string
+    {
+      return this._listFilter;
+    }
+
+    public set listFilter(value:string)
+    {
+      this._listFilter = value;
+      this.filteredProducts = this.listFilter ? this.performFilter(this.listFilter) : this.products;
+    }
+
+    filteredProducts: IProduct[];
+    products: IProduct[] =
     [
         {
             "productId": 1,
@@ -24,7 +35,7 @@ export class ProductListComponent
           },
           {
             "productId": 2,
-            "productName": "Garden Cart",
+            "productName": "Garden Cart Rake",
             "productCode": "GDN-0023",
             "releaseDate": "March 18, 2016",
             "description": "15 gallon capacity rolling garden cart",
@@ -34,6 +45,27 @@ export class ProductListComponent
           }
 
     ];
+
+    // Constructor
+    constructor() 
+    {
+      console.log('Constructor');
+
+      this.listFilter = 'cart';
+    }
+
+    // Lifecicle hook event
+    ngOnInit(): void
+    {
+      console.log('In OnInit');
+    }
+
+    performFilter(filterBy: string): IProduct[]
+    {
+       filterBy =  filterBy.toLocaleLowerCase();
+
+       return this.products.filter(p=> p.productName.toLocaleLowerCase().indexOf(filterBy)!== -1);
+    }
 
     toggleImage(): void
     {
