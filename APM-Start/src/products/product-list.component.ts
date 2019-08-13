@@ -4,10 +4,11 @@ import { IProduct } from "src/Interfaces/IProduct";
 @Component({selector:'pm-products', templateUrl: './product-list.component.html', styleUrls: ['./product-list.component.css']})
 export class ProductListComponent implements OnInit
 {
-  _listFilter: string;
+   _listFilter: string;
     imageWidth: number = 50;
     imageMargin: Number = 2;
     showImage: boolean  = true;
+    pageTitle: string = 'Product List';
 
     public get listFilter(): string
     {
@@ -70,5 +71,10 @@ export class ProductListComponent implements OnInit
     toggleImage(): void
     {
       this.showImage =!this.showImage;
+    }
+
+    onRatingClicked(message: string): void
+    {
+      this.pageTitle = 'Product List: ' +  message;
     }
 }
