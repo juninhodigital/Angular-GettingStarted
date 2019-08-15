@@ -3,6 +3,7 @@ import { IProduct } from "../Interfaces/IProduct";
 import { ProductService } from "../services/product.service";
 import { HttpClient } from "selenium-webdriver/http";
 import { Observable } from "rxjs";
+import { error } from "util";
 
 @Component({selector:'pm-products', templateUrl: './product-list.component.html', styleUrls: ['./product-list.component.css']})
 export class ProductListComponent implements OnInit
@@ -12,6 +13,7 @@ export class ProductListComponent implements OnInit
     imageMargin: Number = 2;
     showImage: boolean  = true;
     pageTitle: string = 'Product List';
+    errorMessage: string = '';
 
     public get listFilter(): string
     {
@@ -33,23 +35,42 @@ export class ProductListComponent implements OnInit
       console.log('Constructor');
     }
 
-    errorMessage = '';
-
     // Lifecicle hook event and execute after the constructor
     ngOnInit(): void
     {
       // Use this event to get data before the component is initialized
+      this.getProducts();
+      //this.getProductsUsingNext();
+
+      console.log('In OnInit');
+    }
+
+    getProductsUsingNext(): void
+    {
       this.productService.getProducts().subscribe
-      ({
+      (
+        {
           next: data=> 
           {
             this.products = data;
             this.filteredProducts = this.products;
           },
-          error: err=> this.errorMessage = err
+          error: err=> this.errorMessage = err          
       });
-s
-      console.log('In OnInit');
+    }
+
+    getProducts(): void
+    {
+        this.productService.getProducts().subscribe(response=>
+        {
+            this.products = response;
+            this.filteredProducts = this.products;
+        }, 
+        error =>
+        {
+          console.log("An error occurred in the get products process",  error);
+          this.errorMessage = error.message;
+        });
     }
 
     performFilter(filterBy: string): IProduct[]

@@ -1,4 +1,4 @@
-import { HttpClient, HttpErrorResponse } from "@angular/common/http";
+import { HttpClient, HttpErrorResponse, HttpHeaders } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { IProduct } from "../Interfaces/IProduct";
 import { Observable, throwError } from "rxjs";
@@ -16,7 +16,14 @@ export class ProductService
 
     getProducts(): Observable<IProduct[]>
     {
-       return this.http.get<IProduct[]>(this.productUrl)
+       return this.http.get<IProduct[]>(this.productUrl, 
+       {
+          headers: new HttpHeaders
+          ({
+            'clientId': '3n/7E6ZaG5+iB2LZ+WAjUQ==',
+            'sharedSecret': 'HL5pkAqqO6bU2ab/djfoxWP/w2B9va7a'     
+          })
+        })
        .pipe
        (
          // The 'TAP' operator allow us to look at the emmited values in the stream without transforming it
