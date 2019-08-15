@@ -1,63 +1,50 @@
+import { HttpClient, HttpErrorResponse } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { IProduct } from "../Interfaces/IProduct";
+import { Observable, throwError } from "rxjs";
+import { tap, catchError } from "rxjs/operators";
 
 @Injectable({providedIn:'root'})
 export class ProductService
 {
-    getProducts(): IProduct[]
+    private productUrl: string = 'api/products/products.json';
+
+    constructor(private http: HttpClient)
     {
-        return [
-            {
-                "productId": 1,
-                "productName": "Leaf Rake",
-                "productCode": "GDN-0011",
-                "releaseDate": "March 19, 2016",
-                "description": "Leaf rake with 48-inch wooden handle.",
-                "price": 19.95,
-                "starRating": 3.2,
-                "imageUrl": "http://96-87-153-66-static.hfc.comcastbusiness.net/cliparts/7/c/5/a/clipart-leaf-rake-256x256-7c5a.png"
-              },
-              {
-                "productId": 2,
-                "productName": "Garden Cart Rake",
-                "productCode": "GDN-0023",
-                "releaseDate": "March 18, 2016",
-                "description": "15 gallon capacity rolling garden cart",
-                "price": 32.99,
-                "starRating": 4.2,
-                "imageUrl": "http://96-87-153-66-static.hfc.comcastbusiness.net/cliparts/2/a/1/1/clipart-garden-cart-256x256-2a11.png"
-              },
-              {
-                "productId": 5,
-                "productName": "Hammer",
-                "productCode": "TBX-0048",
-                "releaseDate": "May 21, 2016",
-                "description": "Curved claw steel hammer",
-                "price": 8.9,
-                "starRating": 4.8,
-                "imageUrl": "http://96-87-153-66-static.hfc.comcastbusiness.net/cliparts/9/c/a/2/clipart-hammer-256x256-9ca2.png"
-              },
-              {
-                "productId": 8,
-                "productName": "Saw",
-                "productCode": "TBX-0022",
-                "releaseDate": "May 15, 2016",
-                "description": "15-inch steel blade hand saw",
-                "price": 11.55,
-                "starRating": 3.7,
-                "imageUrl": "http://96-87-153-66-static.hfc.comcastbusiness.net/cliparts/3/3/2/e/clipart-saw-256x256-332e.png"
-              },
-              {
-                "productId": 10,
-                "productName": "Video Game Controller",
-                "productCode": "GMG-0042",
-                "releaseDate": "October 15, 2015",
-                "description": "Standard two-button video game controller",
-                "price": 35.95,
-                "starRating": 4.6,
-                "imageUrl": "http://96-87-153-66-static.hfc.comcastbusiness.net/cliparts/b/1/d/2/clipart-xbox-controller-01-256x256-b1d2.png"
-              }
-    
-        ];
+
+    }
+
+    getProducts(): Observable<IProduct[]>
+    {
+       return this.http.get<IProduct[]>(this.productUrl)
+       .pipe
+       (
+         // The 'TAP' operator allow us to look at the emmited values in the stream without transforming it
+          tap(data=> 
+          {
+            //console.log(JSON.stringify(data))
+          }, 
+          catchError(this.handleError)
+       ));
+    }
+
+    handleError(ex: HttpErrorResponse)
+    {
+        let errorMessage = '';
+
+        if(ex.error instanceof ErrorEvent)
+        {
+          errorMessage = `An error occurred: ${ex.error.message}`;
+        }
+        else
+        {
+          errorMessage = `Server returned code: ${ex.status}, error message: ${ex.message}`
+          
+        }
+
+        console.log(errorMessage);
+
+        // Throw the error to the caller method
+        return throwError(errorMessage);
     }
 }
