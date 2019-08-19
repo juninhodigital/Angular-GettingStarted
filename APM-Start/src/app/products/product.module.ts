@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { ProductListComponent } from './product-list.component';
 import { ConvertToSpacePipe } from '../Pipes/convert-to-space.pipe';
 import { ProductDetailComponent } from './product-detail.component';
-import { StarComponent } from '../shared/star.component';
 import { RouterModule } from '@angular/router';
 import { ProductDetailGuard } from './product-detail.guard';
 import { SharedModule } from '../shared/shared/shared.module';
