@@ -17,7 +17,6 @@ import { SharedModule } from '../shared/shared/shared.module';
   ],
   imports: 
   [
-    
     RouterModule.forChild
     (
       [
