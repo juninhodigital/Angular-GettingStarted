@@ -24,7 +24,7 @@ Note also that Stackblitz does not seem to recognize the Font Awesome icons. So 
 Tools:
 Visual Studio Code
 
-#Visual Studio Code Extensions:
+## Visual Studio Code Extensions:
 - [x] **Auto Rename Tag**
 - [x] **C#**
 - [x] **Code Alignment**
