@@ -21,9 +21,6 @@ NOTE: If you chose to use Stackblitz, note that it currently does not support re
 
 Note also that Stackblitz does not seem to recognize the Font Awesome icons. So you will instead see portions of squares.
 
-Tools:
-Visual Studio Code
-
 ## Visual Studio Code Extensions:
 - [x] **Auto Rename Tag**
 - [x] **C#**
